@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 
 class TradeController extends Controller
 {
+
     public function dashboard(Request $request) {
         $user = $request->user();
         $offers = Offer::where('user_id', $user->id)->get();
@@ -54,8 +55,14 @@ class TradeController extends Controller
     }
 
     public function offer_search(Request $request) {
-        $filter_by = '';
+        
+        $trade = $request->query('trade', null);
+        $coin = $request->query('coin', null);
+        $method = $request->query('method', null);
+        $location = $request->query('location', null);
+        
         $offers = Offer::where()->get();
+
         return view('offer.list', compact('offers'));
     }
 
