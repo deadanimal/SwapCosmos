@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.appx')
 
 @section('content')
     <div class="row">
@@ -9,11 +9,11 @@
                     <div class="row">
                         <div class="col-6">
                             <h6>Promotional Code</h6>
-                            <h1>{{ $user->code }}</h1>                            
+                            <h1>1</h1>                            
                         </div>
                         <div class="col-6">
                             <h6>No. of Downline(s)</h6>
-                            <h1>{{ $no_of_downlines }}</h1>                            
+                            <h1>-</h1>                            
                         </div>
                     </div>
                 </div>
@@ -24,11 +24,11 @@
                     <div class="row">
                         <div class="col-6">
                             <h6>Lifetime Reward, USD</h6>
-                            <h1>{{ $cumulative_reward }}</h1>                            
+                            <h1>-</h1>                            
                         </div>
                         <div class="col-6">
                             <h6>Weekly Reward, USD</h6>
-                            <h1>{{ $weekly_reward }}</h1>                            
+                            <h1>-</h1>                            
                         </div>
                     </div>
                 </div>

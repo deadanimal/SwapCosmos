@@ -9,6 +9,8 @@ use App\Models\Setting;
 use App\Models\Trade;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class TradeController extends Controller
 {
@@ -46,6 +48,14 @@ class TradeController extends Controller
             'price_margin' => $request->price_margin,
             'user_id' => $user->id
         ]);   
+        
+        $uid = Str::random(32);
+        while(Offer::where('uid', $uid)->exists()) {
+            $uid = Str::random(32);
+        }
+        $offer->uid = $uid;        
+        $offer->save();
+
         return back();
     }
 
@@ -81,6 +91,14 @@ class TradeController extends Controller
             'customer_id' => $user->id,
             'user_id' => $offer->user_id
         ]);
+
+        $room_uid = Str::random(32);
+        while(Offer::where('uid', $room_uid)->exists()) {
+            $room_uid = Str::random(32);
+        }
+        $room->uid = $room_uid;        
+        $room->save(); 
+
         RoomMessage::create([
             'room_id' => $room->id,
             'user_id' => $user->id,
@@ -113,13 +131,20 @@ class TradeController extends Controller
         $offer = Offer::where('uid', $uid)->first();
         //$offer->taker_id = $request->taker_id;
 
-        Trade::create([
+        $trade = Trade::create([
             'offer_id' => $offer->id,
             'coin' => $offer->coin,
             'coin_amount' => $offer->coin_amount,
             'trader_id' => $offer->user_id,
             'user_id' => $user->id,
         ]);
+
+        $trade_uid = Str::random(32);
+        while(Trade::where('uid', $trade_uid)->exists()) {
+            $trade_uid = Str::random(32);
+        }
+        $trade->uid = $trade_uid;        
+        $trade->save();        
 
         return back();
     }    

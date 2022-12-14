@@ -80,16 +80,13 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="/digits">Play Lottery</a>
+                            <a class="nav-link" href="/digits">Buy Crypto</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/powerballs">Play Powerball</a>
+                            <a class="nav-link" href="/powerballs">Sell Crypto</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/slots">Play Slot Machine</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/sportbets">Sport Betting</a>
+                            <a class="nav-link" href="/offer/create">Create Offer</a>
                         </li>
                     @endrole
 
@@ -142,8 +139,8 @@
 
 
                 @else
-                    <a href="/play">
-                        <button class="btn btn-success my-2 my-sm-0" type="button">Play Lottery</button>
+                    <a href="/dashboard">
+                        <button class="btn btn-primary my-2 my-sm-0" type="button">Dashboard</button>
                     </a>
                 @endif
             </div>
