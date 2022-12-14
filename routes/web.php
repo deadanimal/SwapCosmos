@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,18 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('offers', [WebController::class, 'list']);
-Route::get('offers/create', [WebController::class, 'create']);
-Route::post('offers', [WebController::class, 'store']);
-Route::get('offers/{uuid}', [WebController::class, 'detail']);
-Route::put('offers/{uuid}', [WebController::class, 'update']);
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-Route::get('wallet', [WebController::class, 'home']);
-Route::get('calculator', [WebController::class, 'home']);
-Route::get('fees', [WebController::class, 'home']);
-Route::get('list-token', [WebController::class, 'home']);
-Route::get('privacy', [WebController::class, 'home']);
-Route::get('terms', [WebController::class, 'home']);
-
-Route::get('learn/{topic}', [WebController::class, 'home']);
+require __DIR__.'/auth.php';
