@@ -5,7 +5,12 @@ use App\Http\Controllers\TradeController;
 use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('', [WebController::class, 'home']);
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+//Route::get('', [WebController::class, 'home']);
 
 Route::get('user/{username}', [TradeController::class, 'user_profile']);
 
