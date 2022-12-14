@@ -1,55 +1,27 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends('layouts.auth')
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+@section('content')
 
-        <form method="POST" action="{{ route('login') }}">
+    <main class="form-signin">
+        <form action="/login" method="POST">
             @csrf
+            {{-- <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72"
+                height="57"> --}}
+            <h1 class="h3 mb-3 fw-normal text-black">Swap Cosmos</h1>
 
-            <!-- Email Address -->
-            <div>
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <div class="form-floating">
+                <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <label for="floatingInput">Email address</label>
+            </div>
+            <div class="form-floating mt-3">
+                <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword">Password</label>
             </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
 
-                <x-text-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-primary-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-primary-button>
-            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>            
         </form>
-    </x-auth-card>
-</x-guest-layout>
+        <p class="mt-5 mb-3 text-muted">&copy; 2022 Swap Cosmos Labs</p>
+    </main>
+
+@endsection
