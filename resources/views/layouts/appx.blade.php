@@ -86,7 +86,7 @@
                             <a class="nav-link" href="/powerballs">Sell Crypto</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/offer/create">Create Offer</a>
+                            <a class="nav-link" href="/offers/create">Create Offer</a>
                         </li>
                     @endrole
 
