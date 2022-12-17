@@ -13,4 +13,13 @@ class Coin extends Model
         'name',
         'symbol',
     ];    
+
+
+    public function offers() {
+        return $this->hasMany(Offer::class);
+    }          
+
+    public function trades() {
+        return $this->hasMany(Trade::class);
+    }       
 }

@@ -14,11 +14,20 @@ class Offer extends Model
         'min_payment',
         'max_payment',
         'coin_id',
-        'coin_amount',
         'payment_location_id',
         'payment_method_id',
         'payment_currency_id',
         'price_margin',
         'user_id',
-    ];        
+        'terms',
+        'headline'
+    ];     
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }     
+    
+    public function rooms() {
+        return $this->hasMany(Room::class);
+    }      
 }

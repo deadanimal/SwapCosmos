@@ -80,10 +80,7 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="/digits">Buy Crypto</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/powerballs">Sell Crypto</a>
+                            <a class="nav-link" href="/offers">All Offer</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/offers/create">Create Offer</a>
@@ -118,16 +115,14 @@
                         <li class="nav-item dropdown">
                             <a class="btn btn-primary dropdown-toggle show" data-bs-toggle="dropdown" href="#"
                                 role="button" aria-haspopup="true" aria-expanded="true">
-                                USD {{ number_format(Auth::user()->balance / pow(10, 6), 2, '.', '') }}
+                                Blockchain Swap
                             </a>
                             <div class="dropdown-menu dropdown-menu-end hide" data-bs-popper="static">
                                 {{-- <a class="dropdown-item" href="/play">Play Lottery</a> --}}
                                 {{-- <div class="dropdown-divider"></div> --}}
                                 <a class="dropdown-item" href="/dashboard">Dashboard</a>
-                                <a class="dropdown-item" href="/ramps">Transfer</a>
-                                <a class="dropdown-item" href="/rewards">Reward</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-success" href="/oracle">Oracle</a>
+                                <a class="dropdown-item" href="/trades">Trade</a>
+                                <a class="dropdown-item" href="/notifications">Notification</a>
                                 <div class="dropdown-divider"></div>
                                 <form action='/logout' method="POST">
                                     @csrf
@@ -156,17 +151,20 @@
 
 
             <div class="col-sm-6 col-xl-3">
-                <h5>Games</h5>
+                <h5>Blockchain Swap</h5>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2">
-                        <a href="/digits" class="nav-link p-0 text-muted">Buy <b>Lottery</b> ticket</a>
+                        <a href="/offers?type=buy" class="nav-link p-0 text-muted">Buy Crypto from peer</a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a href="/powerballs" class="nav-link p-0 text-muted">Buy <b>Powerball</b> ticket</a>
+                        <a href="/offers?type=sell" class="nav-link p-0 text-muted">Sell Crypto to peer</a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a href="/sportbets" class="nav-link p-0 text-muted">Bet on <b>Live Sport</b></a>
+                        <a href="/contact-us" class="nav-link p-0 text-muted">Contact us</a>
                     </li>
+                    <li class="nav-item mb-2">
+                        <a href="/contact-us" class="nav-link p-0 text-muted">Ask for Help!</a>
+                    </li>                    
                     {{-- <li class="nav-item mb-2">
                         <a href="/markets" class="nav-link p-0 text-muted">Bet on <b>Prediction</b></a>
                     </li> --}}
@@ -178,15 +176,15 @@
                 <h5>Help</h5>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2"><a
-                            href="https://help.Swap Cosmos777.xyz/support/solutions/articles/150000025572-how-to-deposit-money-into-your-Swap Cosmos777-s-account"
-                            class="nav-link p-0 text-muted">How to deposit money?</a></li>
+                            href="https://help.swapcosmos.com/support/solutions/articles/150000025572-how-to-deposit-money-into-your-swapcosmos-comccount"
+                            class="nav-link p-0 text-muted">Common scams in cryptospace</a></li>
                     <li class="nav-item mb-2"><a
-                            href="https://help.Swap Cosmos777.xyz/en/support/solutions/articles/150000025573-how-to-withdraw-money-from-your-account"
-                            class="nav-link p-0 text-muted">How to withdraw money?</a></li>
-                    <li class="nav-item mb-2"><a href="https://help.Swap Cosmos777.xyz/support/home"
-                            class="nav-link p-0 text-muted">How to play lottery?</a></li>
-                    <li class="nav-item mb-2"><a href="https://help.Swap Cosmos777.xyz/support/home"
-                            class="nav-link p-0 text-muted">How to bet on a sport?</a></li>
+                            href="https://help.swapcosmos.com/en/support/solutions/articles/150000025573-how-to-withdraw-money-from-your-account"
+                            class="nav-link p-0 text-muted">When to transfer money to seller?</a></li>
+                    <li class="nav-item mb-2"><a href="https://help.swapcosmos.com/support/home"
+                            class="nav-link p-0 text-muted">When to initiate a complain against buyer?</a></li>
+                    <li class="nav-item mb-2"><a href="https://help.swapcosmos.com/support/home"
+                            class="nav-link p-0 text-muted">How to complain against buyer?</a></li>
                 </ul>
             </div>
 
@@ -194,15 +192,15 @@
                 <h5>More Help</h5>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2"><a
-                            href="https://help.Swap Cosmos777.xyz/support/solutions/articles/150000025572-how-to-deposit-money-into-your-Swap Cosmos777-s-account"
-                            class="nav-link p-0 text-muted">How to earn rewards?</a></li>
+                            href="https://help.swapcosmos.com/support/solutions/articles/150000025572-how-to-deposit-money-into-your-swapcosmos-comccount"
+                            class="nav-link p-0 text-muted">How to transfer token out?</a></li>
                     <li class="nav-item mb-2"><a
-                            href="https://help.Swap Cosmos777.xyz/en/support/solutions/articles/150000025573-how-to-withdraw-money-from-your-account"
-                            class="nav-link p-0 text-muted">How to avoid being scammed?</a></li>
-                    <li class="nav-item mb-2"><a href="https://help.Swap Cosmos777.xyz/support/home"
-                            class="nav-link p-0 text-muted">How to increase chance of winning?</a></li>
-                    <li class="nav-item mb-2"><a href="https://help.Swap Cosmos777.xyz/support/home"
-                            class="nav-link p-0 text-muted">How to bet on a prediction?</a></li>
+                            href="https://help.swapcosmos.com/en/support/solutions/articles/150000025573-how-to-withdraw-money-from-your-account"
+                            class="nav-link p-0 text-muted">How to receive token into wallet?</a></li>
+                    <li class="nav-item mb-2"><a href="https://help.swapcosmos.com/support/home"
+                            class="nav-link p-0 text-muted">How can I buy huge amount of crypto?</a></li>
+                    <li class="nav-item mb-2"><a href="https://help.swapcosmos.com/support/home"
+                            class="nav-link p-0 text-muted">What is Peer-to-Peer swap?</a></li>
                 </ul>
             </div>
 
@@ -210,15 +208,15 @@
                 <h5>web3</h5>
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2"><a
-                            href="https://help.Swap Cosmos777.xyz/support/solutions/articles/150000025572-how-to-deposit-money-into-your-Swap Cosmos777-s-account"
+                            href="https://help.swapcosmos.com/support/solutions/articles/150000025572-how-to-deposit-money-into-your-swapcosmos-comccount"
                             class="nav-link p-0 text-muted">What blockchain is this app run?</a></li>
                     <li class="nav-item mb-2"><a
-                            href="https://help.Swap Cosmos777.xyz/en/support/solutions/articles/150000025573-how-to-withdraw-money-from-your-account"
-                            class="nav-link p-0 text-muted">Do you have token or NFT?</a></li>
-                    <li class="nav-item mb-2"><a href="https://help.Swap Cosmos777.xyz/support/home"
-                            class="nav-link p-0 text-muted">How can I stake token on the blockchain?</a></li>
-                    <li class="nav-item mb-2"><a href="https://help.Swap Cosmos777.xyz/support/home"
-                            class="nav-link p-0 text-muted">Can I develop new games on chain?</a></li>
+                            href="https://help.swapcosmos.com/en/support/solutions/articles/150000025573-how-to-withdraw-money-from-your-account"
+                            class="nav-link p-0 text-muted">Do you have a token sale?</a></li>
+                    <li class="nav-item mb-2"><a href="https://help.swapcosmos.com/support/home"
+                            class="nav-link p-0 text-muted">How can I stake on the blockchain?</a></li>
+                    <li class="nav-item mb-2"><a href="https://help.swapcosmos.com/support/home"
+                            class="nav-link p-0 text-muted">What is the gas fee?</a></li>
                 </ul>
             </div>
 

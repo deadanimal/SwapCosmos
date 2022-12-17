@@ -10,23 +10,35 @@ use App\Models\Trade;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use \FurqanSiddiqui\BIP39\BIP39;
 
+use DataTables;
+use DateTime;
+use DateTimeZone;
+use Carbon\Carbon;
 
 class TradeController extends Controller
 {
 
     public function dashboard(Request $request) {
+        
         $user = $request->user();
+        
+        if(is_null($user->key)) {
+            $this->generate_seed($user);
+        }      
+        
         $offers = Offer::where('user_id', $user->id)->get();
         $trades = Trade::where('trader_id', $user->id)->get();
+
         return view('web.dashboard', compact(
-            'offers', 'trades'
+            'offers', 'trades', 'user'
         ));
     }
 
     public function user_profile(Request $request) {
-        $username = $request->route('username');
-        $user = User::where('username', $username)->first();
+        $uid = $request->route('uid');
+        $user = User::where('uid', $uid)->first();
         return view('web.profile', compact('user'));
     }
 
@@ -39,13 +51,17 @@ class TradeController extends Controller
         $offer = Offer::create([
             'trade_type' => $request->trade_type,
             'min_payment' => $request->min_payment,
-            'max_payment' => $request->max_payment,
-            'coin' => $request->coin,
-            'coin_amount' => $request->coin_amount,
-            'payment_location' => $request->payment_location,
-            'payment_method' => $request->payment_method,
-            'payment_currency' => $request->payment_currency,
+            'max_payment' => $request->max_payment,   
             'price_margin' => $request->price_margin,
+
+            'terms' => $request->terms,
+            'headline' => $request->headline,
+            
+            'coin_id' => 1,            
+            'payment_location_id' => 1,
+            'payment_method_id' => 1,
+            'payment_currency_id' => 1,
+
             'user_id' => $user->id
         ]);   
         
@@ -59,8 +75,66 @@ class TradeController extends Controller
         return back();
     }
 
-    public function offer_list() {
-        $offers = Offer::where('active', true)->get();
+    public function offer_list(Request $request) {
+        $trade = $request->query('trade', null);
+        
+        $offers = Offer::where([
+            ['active','=', true],
+        ])->get();
+
+        if($request->ajax()) {
+
+            $filter = $request->query('filter', null);
+            if($filter == 'buy') {
+                $offers = Offer::where([
+                    ['active','=', true],
+                    ['trade_type','=', 'buy'],
+                ])->get();
+            } else {
+                $offers = Offer::where([
+                    ['active','=', true],
+                    ['trade_type','=', 'sell'],
+                ])->get();
+            }
+            
+            
+            return DataTables::collection($offers)
+            ->addIndexColumn()
+            ->addColumn('method', function (Offer $offer) {
+                $html_statement = number_format(10 * pow(10, 6), 2, '.', '');
+                return $html_statement;
+            })    
+            ->addColumn('location', function (Offer $offer) {
+                $html_statement = number_format(10 * pow(10, 6), 2, '.', '');
+                return $html_statement;
+            })                       
+            ->addColumn('price', function (Offer $offer) {
+                $html_statement = number_format(10 * pow(10, 6), 2, '.', '');
+                return $html_statement;
+            })   
+            ->addColumn('limit', function (Offer $offer) {
+                $html_statement = number_format(10 * pow(10, 6), 2, '.', '');
+                return $html_statement;
+            })               
+            ->addColumn('action', function (Offer $offer) {
+                $html_statement = '<a href="/offers/'.$offer->uid.'" class="btn btn-sm btn-primary">View Offer</a>';
+                return $html_statement;
+            })                 
+            ->addColumn('user.name', function (Offer $offer) {
+                $html_statement = '<a href="/users/'.$offer->user->uid.'">'.$offer->user->name.'</a>';
+                return $html_statement;
+            })                                    
+            ->editColumn('created_at', function (Offer $offer) {
+                return [
+                    'display' => ($offer->created_at && $offer->created_at != '0000-00-00 00:00:00') ? with(new Carbon($offer->created_at))->format('j F Y h:m:s') : '',
+                    'timestamp' => ($offer->created_at && $offer->created_at != '0000-00-00 00:00:00') ? with(new Carbon($offer->created_at))->timestamp : ''
+                ];
+            })
+            ->rawColumns(['method', 'location', 'price', 'limit', 'action', 'user.name'])
+            ->make(true);              
+        }
+
+
         return view('offer.list', compact('offers'));
     }
 
@@ -77,9 +151,32 @@ class TradeController extends Controller
     }
 
     public function offer_detail(Request $request) {
+        $user = $request->user();
         $uid = $request->route('uid');
         $offer = Offer::where('uid', $uid)->first();
-        return view('offer.detail', compact('offer'));
+
+        if ($user->id == $offer->user_id) {
+            $room = Room::where([
+                ['offer_id', '=', $offer->id],
+                ['user_id', '=', $user->id],
+            ])->first();
+        } else {
+            $room = Room::where([
+                ['offer_id', '=', $offer->id],
+                ['customer_id', '=', $user->id],
+            ])->first();            
+        }
+
+        
+        if($room == null) {
+            $room_exist = true;
+        } else {
+            $room_exist = false;
+        }
+
+        return view('offer.detail', compact([
+            'offer', 'user', 'room_exist'
+        ]));
     }
 
     public function offer_message(Request $request) {
@@ -147,6 +244,13 @@ class TradeController extends Controller
         $trade->save();        
 
         return back();
+    }   
+    
+    public function trade_detail(Request $request) {
+        $user = $request->user();
+        $uid = $request->route('uid');
+        $trade = Trade::where('uid', $uid)->first();
+        return view('trade.detail', compact('trade', 'user'));
     }    
 
     public function trade_escrow(Request $request) {
@@ -259,4 +363,19 @@ class TradeController extends Controller
     private function release_coin() {}
 
     private function refund_coin() {}
+
+    private function generate_seed($user) {        
+        $mnemonic = BIP39::Generate(12);
+        $key = implode(" ", $mnemonic->words);  
+        $password = (string)($user->id).(string)($user->created_at).(string)env('APP_KEY');
+        $encrypted_key = openssl_encrypt($key, "AES-128-ECB", $password);
+        $user->key = $encrypted_key;
+        $user->save();
+    }
+
+    private function show_key($user) {
+        $password = (string)($user->id).(string)($user->created_at).(string)env('APP_KEY');
+        $decrypted_string = openssl_decrypt($user->key,"AES-128-ECB",$password);        
+        return $decrypted_string;
+    }
 }

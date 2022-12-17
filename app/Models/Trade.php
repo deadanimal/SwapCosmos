@@ -15,6 +15,18 @@ class Trade extends Model
         'coin_amount',
         'trader_id',
         'user_id',
-    ];        
+    ];     
+    
+    public function offer() {
+        return $this->belongsTo(Offer::class);
+    }   
+    
+    public function trader() {
+        return $this->belongsTo(User::class, 'trader_id');
+    }  
+    
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }      
   
 }

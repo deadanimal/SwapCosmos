@@ -14,4 +14,8 @@ class Room extends Model
         'customer_id',
         'user_id',
     ];    
+
+    public function messages() {
+        return $this->hasMany(RoomMessage::class);
+    }         
 }

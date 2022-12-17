@@ -13,6 +13,10 @@ class RoomMessage extends Model
         'room_id',
         'user_id',
         'message',
-    ];    
+    ];   
+    
+    public function room() {
+        return $this->belongsTo(Room::class);
+    }             
    
 }

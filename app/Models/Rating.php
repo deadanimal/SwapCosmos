@@ -15,4 +15,12 @@ class Rating extends Model
         'mark',
     ];
 
+    public function trade() {
+        return $this->belongsTo(Trade::class);
+    }    
+    
+    public function user() {
+        return $this->belongsTo(User::class);
+    }         
+
 }

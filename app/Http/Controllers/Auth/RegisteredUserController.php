@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-
+use Illuminate\Support\Str;
 class RegisteredUserController extends Controller
 {
     /**
@@ -44,6 +44,13 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $uid = Str::random(16);
+        while(User::where('uid', $uid)->exists()) {
+            $uid = Str::random(32);
+        }  
+        $user->uid = $uid;
+        $user->save();
 
         event(new Registered($user));
 
